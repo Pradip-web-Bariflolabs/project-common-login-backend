@@ -9,4 +9,8 @@ urlpatterns = [
     path('log_in/',myapp.login,name='login'),
     path('token_verification/',myapp.token_verification,name='token_verification'),
     path('regd/',myapp.registration,name='regd'),
+    path('admincreate/',myapp.admincreate),
+    path('admin_delete/',myapp.admin_delete),
+    path('admin_view/',myapp.admin_view),
+    path('ocr/',myapp.ocr),
 ]
