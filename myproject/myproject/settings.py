@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-qy%yqfqt@#*iz59jyhuu99p73)g-r%5-umq7+xhyz43ycxn^c-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*','loginbg.bc-pl.com']
 
 
 # Application definition
@@ -135,12 +135,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOWED_ORIGINS = [
-
-    'http://20.235.248.237:4200',
-    'http://localhost:4200',
-    'http://localhost:60842',
-    'http://4.240.112.100:4200',
-    'http://4.240.112.100:60842',
-    'http://20.235.248.237:60842',
+CSRF_TRUSTED_ORIGINS = [
+    'https://loginbg.bc-pl.com',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True

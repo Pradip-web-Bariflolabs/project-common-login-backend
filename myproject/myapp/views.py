@@ -8,6 +8,7 @@ from rest_framework.decorators import api_view
 import psycopg2
 from django.middleware.csrf import get_token
 import datetime
+import re
 # Create your views here.
 @csrf_exempt
 def user_create(request):
@@ -34,60 +35,63 @@ def login(request):
         phone = jsondata.get('username')
         password = jsondata.get('password')
 
-        # try:
-        if type(phone)==int:
+        phone_pattern = re.compile(r'^\d{10}$')  # Regex for a 10-digit phone number
+        email_pattern = re.compile(r'^[\w\.-]+@[\w\.-]+\.\w+$')  # Regex for a valid email
+
+        if phone_pattern.match(phone):
             if User.objects.filter(Mobno=phone).exists():
                 users = User.objects.get(Mobno=phone)
-                if phone == users.Mobno and str(users.user_category) == "3d" and password == users.password:
-                    return JsonResponse({'message':"Login Successfull For 3D User",'username':users.Name,'mobno':users.Mobno,'token':users.token,'cat':users.user_category})
-                elif phone == users.Mobno and str(users.user_category) == "water" and password == users.password:
-                    return JsonResponse({'message':"Login Successfull For waterbody User",'username':users.Name,'mobno':users.Mobno,'token':users.token,'cat':users.user_category})
-                elif phone == users.Mobno and str(users.user_category) == "aqua" and password == users.password:
-                    return JsonResponse({'message':"Login Successfull For aqua User",'username':users.Name,'mobno':users.Mobno,'token':users.token,'cat':users.user_category})
+                if phone == str(users.Mobno) and str(users.user_category) == "3d" and password == users.password:
+                    return JsonResponse({'message':"Login Successful For 3D User",'username':users.Name,'mobno':users.Mobno,'token':users.token,'cat':users.user_category})
+                elif phone == str(users.Mobno) and str(users.user_category) == "water" and password == users.password:
+                    return JsonResponse({'message':"Login Successful For waterbody User",'username':users.Name,'mobno':users.Mobno,'token':users.token,'cat':users.user_category})
+                elif phone == str(users.Mobno) and str(users.user_category) == "aqua" and password == users.password:
+                    return JsonResponse({'message':"Login Successful For aqua User",'username':users.Name,'mobno':users.Mobno,'token':users.token,'cat':users.user_category})
                 else:  
                     return JsonResponse({'error':"Invalid credential for General user"})
-            if AdminUser.objects.filter(Mobno=phone).exists():
+            elif AdminUser.objects.filter(Mobno=phone).exists():
                 admin = AdminUser.objects.get(Mobno=phone)
-                if phone == admin.Mobno and str(admin.user_category) == "3d" and password == admin.password:
-                    return JsonResponse({'message':"Login Successfull For 3D Admin",'username':admin.Name,'mobno':admin.Mobno,'token':admin.token,'cat':admin.user_category})
-                elif phone == admin.Mobno and str(admin.user_category) == "water" and password == admin.password:
-                    return JsonResponse({'message':"Login Successfull For waterbody Admin",'username':admin.Name,'mobno':admin.Mobno,'token':admin.token,'cat':admin.user_category})
-                elif phone == admin.Mobno and str(admin.user_category) == "aqua" and password == admin.password:
-                    return JsonResponse({'message':"Login Successfull For aqua Admin",'username':admin.Name,'mobno':admin.Mobno,'token':admin.token,'cat':admin.user_category})
+                if phone == str(admin.Mobno) and str(admin.user_category) == "3d" and password == admin.password:
+                    return JsonResponse({'message':"Login Successful For 3D Admin",'username':admin.Name,'mobno':admin.Mobno,'token':admin.token,'cat':admin.user_category})
+                elif phone == str(admin.Mobno) and str(admin.user_category) == "water" and password == admin.password:
+                    return JsonResponse({'message':"Login Successful For waterbody Admin",'username':admin.Name,'mobno':admin.Mobno,'token':admin.token,'cat':admin.user_category})
+                elif phone == str(admin.Mobno) and str(admin.user_category) == "aqua" and password == admin.password:
+                    return JsonResponse({'message':"Login Successful For aqua Admin",'username':admin.Name,'mobno':admin.Mobno,'token':admin.token,'cat':admin.user_category})
                 else:  
                     return JsonResponse({'error':"Invalid credential for Admin user"})
-        if type(phone)==str:
+            else:
+                return JsonResponse({'error':"Invalid credential"})
+        elif email_pattern.match(phone):
             if User.objects.filter(Email=phone).exists():
-                users=User.objects.get(Email=phone)
-                print(users)
+                users = User.objects.get(Email=phone)
                 if phone == users.Email and str(users.user_category) == "3d" and password == users.password:
-                    return JsonResponse({'message':"Login Successfull For 3D User",'username':users.Name,'mobno':users.Mobno,'token':users.token,'cat':users.user_category})
+                    return JsonResponse({'message':"Login Successful For 3D User",'username':users.Name,'mobno':users.Mobno,'token':users.token,'cat':users.user_category})
                 elif phone == users.Email and str(users.user_category) == "water" and password == users.password:
-                    return JsonResponse({'message':"Login Successfull For waterbody User",'username':users.Name,'mobno':users.Mobno,'token':users.token,'cat':users.user_category})
+                    return JsonResponse({'message':"Login Successful For waterbody User",'username':users.Name,'mobno':users.Mobno,'token':users.token,'cat':users.user_category})
                 elif phone == users.Email and str(users.user_category) == "aqua" and password == users.password:
-                    return JsonResponse({'message':"Login Successfull For aqua User",'username':users.Name,'mobno':users.Mobno,'token':users.token,'cat':users.user_category})
+                    return JsonResponse({'message':"Login Successful For aqua User",'username':users.Name,'mobno':users.Mobno,'token':users.token,'cat':users.user_category})
                 else:  
                     return JsonResponse({'error':"Invalid credential for general user"})
-            if SuperAdmin.objects.filter(Username=phone).exists():
+            elif SuperAdmin.objects.filter(Username=phone).exists():
                 admin = SuperAdmin.objects.get(Username=phone)
                 if phone == admin.Username and password == admin.Password:
-                    return JsonResponse({'message':"Login Successfull For  SuperAdmin",'username':admin.Username,'password':admin.Password})
+                    return JsonResponse({'message':"Login Successful For SuperAdmin",'username':admin.Username,'password':admin.Password})
                 else:  
                     return JsonResponse({'error':"Invalid credential for SuperAdmin user"})
-            if AdminUser.objects.filter(Email=phone).exists():
+            elif AdminUser.objects.filter(Email=phone).exists():
                 admin = AdminUser.objects.get(Email=phone)
                 if phone == admin.Email and str(admin.user_category) == "3d" and password == admin.password:
-                    return JsonResponse({'message':"Login Successfull For 3D Admin",'username':admin.Name,'mobno':admin.Mobno,'token':admin.token,'cat':admin.user_category})
+                    return JsonResponse({'message':"Login Successful For 3D Admin",'username':admin.Name,'mobno':admin.Mobno,'token':admin.token,'cat':admin.user_category})
                 elif phone == admin.Email and str(admin.user_category) == "water" and password == admin.password:
-                    return JsonResponse({'message':"Login Successfull For waterbody Admin",'username':admin.Name,'mobno':admin.Mobno,'token':admin.token,'cat':admin.user_category})
+                    return JsonResponse({'message':"Login Successful For waterbody Admin",'username':admin.Name,'mobno':admin.Mobno,'token':admin.token,'cat':admin.user_category})
                 elif phone == admin.Email and str(admin.user_category) == "aqua" and password == admin.password:
-                    return JsonResponse({'message':"Login Successfull For aqua Admin",'username':admin.Name,'mobno':admin.Mobno,'token':admin.token,'cat':admin.user_category})
+                    return JsonResponse({'message':"Login Successful For aqua Admin",'username':admin.Name,'mobno':admin.Mobno,'token':admin.token,'cat':admin.user_category})
                 else:  
                     return JsonResponse({'error':"Invalid credential for Admin user"})
             else:  
                 return JsonResponse({'error':"Invalid credential"})
-        # except:
-        #     return JsonResponse("Invalid Credentials",safe=False)
+        else:
+            return JsonResponse({'error':"Invalid phone number or email format"})
 
 @csrf_exempt
 def token_verification(request):
