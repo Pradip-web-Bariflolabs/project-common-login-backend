@@ -9,6 +9,7 @@ import psycopg2
 from django.middleware.csrf import get_token
 import datetime
 import re
+from django.conf import settings
 # Create your views here.
 @csrf_exempt
 def user_create(request):
@@ -125,12 +126,12 @@ def registration(request):
             adhaar = f'{Adhaar}'
             user_category = f'{user_cat}'
             params = f'{json.dumps(params)}'
-            if user_cat == 'aqua':
+            if user_cat == 'analytics':
                 param = {
-                    'host':'4.188.244.11',
-                    'database':'aquadb',
-                    'user':'bariflolabs',
-                    'password':'bariflo2024'
+                    'host':settings.ADMIN_DASH_DB_HOST,
+                    'database':settings.ADMIN_DASH_DB_NAME,
+                    'user':settings.ADMIN_DASH_DB_USER,
+                    'password':settings.ADMIN_DASH_DB_PASS
                     }
                 conn = psycopg2.connect(**param)
                 print("connected")
@@ -139,12 +140,12 @@ def registration(request):
                 conn.commit()
                 return JsonResponse({'message': 'Registration successfully as Aqua-culture user'})
             
-            if user_cat == 'water':
+            if user_cat == 'aqua':
                 param = {
-                    'host':'20.235.250.157',
-                    'database':'testdb',
-                    'user':'bariflolabs',
-                    'password':'tapas123',
+                    'host':settings.AQUA_FARM_DB_HOST,
+                    'database':settings.AQUA_FARM_DB_NAME,
+                    'user':settings.AQUA_FARM_DB_USER,
+                    'password':settings.AQUA_FARM_DB_PASS
                     }
                 conn = psycopg2.connect(**param)
                 print("connected")
@@ -180,15 +181,11 @@ def admincreate(request):
             token = get_token(request)
             datas = AdminUser(Name=fullname,Email=email,Mobno=mobno,password=password,user_category=usertype,token=token)
             datas.save()
-            # def admin_img(instance,filename):
-            #     current_dt = datetime.datetime.now()
-            #     date_str = current_dt.strftime("%d-%m-%Y")
-            #     return '/'.join(['Admin_user_profile',str((instance.Name)+" "+date_str),filename])
             param = {
-                    'host':'4.188.244.11',
-                    'database':'aquadb',
-                    'user':'bariflolabs',
-                    'password':'bariflo2024'
+                    'host':settings.ADMIN_DASH_DB_HOST,
+                    'database':settings.ADMIN_DASH_DB_NAME,
+                    'user':settings.ADMIN_DASH_DB_USER,
+                    'password':settings.ADMIN_DASH_DB_PASS
                     }
             conn = psycopg2.connect(**param)
             print("connected")
@@ -209,10 +206,10 @@ def admin_delete(request):
         admininstance = JSONParser().parse(request)
         mobno=admininstance.get('mobno')
         param = {
-                    'host':'4.188.244.11',
-                    'database':'aquadb',
-                    'user':'bariflolabs',
-                    'password':'bariflo2024'
+                    'host':settings.ADMIN_DASH_DB_HOST,
+                    'database':settings.ADMIN_DASH_DB_NAME,
+                    'user':settings.ADMIN_DASH_DB_USER,
+                    'password':settings.ADMIN_DASH_DB_PASS
                     }
         conn = psycopg2.connect(**param)
         print("connected")
@@ -228,36 +225,5 @@ def admin_view(request):
     if request.method == 'GET':
         a = AdminUser.objects.all()
         data = [(i.Name,i.Email,i.Mobno,i.user_category,i.password) for i in a]
-        return JsonResponse({"datas":data})
 
-@csrf_exempt
-def ocr(request):
-    if request.method == 'GET':
-        import easyocr
-        reader = easyocr.Reader(['en'])
-        result = reader.readtext('images/capture.png')
-        y = result[0][0][0][1]
-        count = 0
-        for i in result:
-            a = i[0][0][1]
-            if a == y:
-                count+=1
-        lst = []
-        lst1 = []
-        count1 = 0
-        # while True:
-        import time
-        for i in result:
-            # print(i)
-            lst1.append(i[1])
-            time.sleep(1)
-            # if count1==count:
-            #     lst.append(lst1)
-            #     count1+=1
-            # else:
-            #     # print("lst1")
-            #     pass
-        print(lst1)
-                
-        # return JsonResponse({"datas":lst})
                 

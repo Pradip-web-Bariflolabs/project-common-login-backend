@@ -76,10 +76,6 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # },
 
     'default':{
         'ENGINE': 'django.db.backends.postgresql',
@@ -91,7 +87,20 @@ DATABASES = {
     }
 }
 
-#DATABASE_ROUTERS = ['myproject.db_router.SecondDbRouter','myproject.db_router.default']
+################## Admin IOT Database ########################################################
+ADMIN_DASH_DB_NAME = 'admindb',
+ADMIN_DASH_DB_USER = 'Bariflolabs',
+ADMIN_DASH_DB_PASS = 'Bfl@2024',
+ADMIN_DASH_DB_HOST = 'aqua-postgres.postgres.database.azure.com',
+ADMIN_DASH_DB_PORT = '5432',
+
+################## Aqua farming Database ########################################################
+AQUA_FARM_DB_NAME = 'aquadb',
+AQUA_FARM_DB_USER = 'Bariflolabs',
+AQUA_FARM_DB_PASS = 'Bfl@2024',
+AQUA_FARM_DB_HOST = 'aqua-postgres.postgres.database.azure.com',
+AQUA_FARM_DB_PORT = '5432',
+
 
 
 # Password validation
@@ -140,3 +149,5 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+
