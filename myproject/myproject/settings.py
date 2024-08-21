@@ -88,18 +88,18 @@ DATABASES = {
 }
 
 ################## Admin IOT Database ########################################################
-ADMIN_DASH_DB_NAME = 'admindb',
-ADMIN_DASH_DB_USER = 'Bariflolabs',
-ADMIN_DASH_DB_PASS = 'Bfl@2024',
-ADMIN_DASH_DB_HOST = 'aqua-postgres.postgres.database.azure.com',
-ADMIN_DASH_DB_PORT = '5432',
+ADMIN_DASH_DB_NAME = 'admindb'
+ADMIN_DASH_DB_USER = 'Bariflolabs'
+ADMIN_DASH_DB_PASS = 'Bfl@2024'
+ADMIN_DASH_DB_HOST = 'aqua-postgres.postgres.database.azure.com'
+ADMIN_DASH_DB_PORT = '5432'
 
 ################## Aqua farming Database ########################################################
-AQUA_FARM_DB_NAME = 'aquadb',
-AQUA_FARM_DB_USER = 'Bariflolabs',
-AQUA_FARM_DB_PASS = 'Bfl@2024',
-AQUA_FARM_DB_HOST = 'aqua-postgres.postgres.database.azure.com',
-AQUA_FARM_DB_PORT = '5432',
+AQUA_FARM_DB_NAME = 'aquadb'
+AQUA_FARM_DB_USER = 'Bariflolabs'
+AQUA_FARM_DB_PASS = 'Bfl@2024'
+AQUA_FARM_DB_HOST = 'aqua-postgres.postgres.database.azure.com'
+AQUA_FARM_DB_PORT = '5432'
 
 
 
