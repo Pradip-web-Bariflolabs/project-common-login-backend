@@ -125,8 +125,8 @@ def registration(request):
             mobno = f'{Mobno}'
             adhaar = f'{Adhaar}'
             user_category = f'{user_cat}'
-            params = f'{json.dumps(params)}'
             if user_cat == 'analytics':
+                params = f'{json.dumps(params)}'
                 param = {
                     'host':settings.ADMIN_DASH_DB_HOST,
                     'database':settings.ADMIN_DASH_DB_NAME,
@@ -141,6 +141,7 @@ def registration(request):
                 return JsonResponse({'message': 'Registration successfully as Analytics-Dashboard user'})
             
             elif user_cat == 'aqua':
+                params = f'{params}'
                 param = {
                     'host':settings.AQUA_FARM_DB_HOST,
                     'database':settings.AQUA_FARM_DB_NAME,
@@ -155,6 +156,7 @@ def registration(request):
                 return JsonResponse({'message': 'Registration successfully as Aqua-Farming user'})
             
             elif user_cat == 'water':
+                params = f'{params}'
                 param = {
                     'host':settings.WATERBODY_DB_HOST,
                     'database':settings.WATERBODY_DB_NAME,
@@ -164,7 +166,7 @@ def registration(request):
                 conn = psycopg2.connect(**param)
                 print("connected")
                 cur = conn.cursor() 
-                cur.execute('INSERT INTO public.myapp_user("Name", "Email", "Mob", "adhaar", "user_category", "password") VALUES (%s, %s, %s, %s, %s, %s);', (name, email, mobno, adhaar, user_category, params))
+                cur.execute('INSERT INTO public.myapp_user("Name", "Email", "Mob", "adhaar", "user_category", "password") VALUES (%s, %s, %s, %s, %s, %s);', (name, email, mobno, Adhaar, user_category, params))
                 conn.commit()
                 return JsonResponse({'message': 'Registration successfully as Water-Body user'})
             else:
