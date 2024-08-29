@@ -166,7 +166,7 @@ def registration(request):
                 conn = psycopg2.connect(**param)
                 print("connected")
                 cur = conn.cursor() 
-                cur.execute('INSERT INTO public.myapp_user("Name", "Email", "Mob", "adhaar", "user_category", "password") VALUES (%s, %s, %s, %s, %s, %s);', (name, email, mobno, Adhaar, user_category, params))
+                cur.execute('INSERT INTO public.myapp_user("Name", "Email", "Mob", "adhaar", "user_category", "password") VALUES (%s, %s, %s, %s, %s, %s);', (name, email, mobno, adhaar, user_category, params))
                 conn.commit()
                 return JsonResponse({'message': 'Registration successfully as Water-Body user'})
             else:
