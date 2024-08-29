@@ -138,7 +138,7 @@ def registration(request):
                 cur = conn.cursor() 
                 cur.execute('INSERT INTO public.app1_registration("Name", "Email", "Mobno", "Adhaar", "user_category", "params") VALUES (%s, %s, %s, %s, %s, %s);', (name, email, mobno, adhaar, user_category, params))
                 conn.commit()
-                return JsonResponse({'message': 'Registration successfully as Aqua-culture user'})
+                return JsonResponse({'message': 'Registration successfully as Analytics-Dashboard user'})
             
             elif user_cat == 'aqua':
                 param = {
@@ -152,7 +152,7 @@ def registration(request):
                 cur = conn.cursor() 
                 cur.execute('INSERT INTO public.myapp_registration("Name", "Email", "Mobno", "Adhaar", "user_category", "params") VALUES (%s, %s, %s, %s, %s, %s);', (name, email, mobno, adhaar, user_category, params))
                 conn.commit()
-                return JsonResponse({'message': 'Registration successfully as Waterbody user'})
+                return JsonResponse({'message': 'Registration successfully as Aqua-Farming user'})
             
             elif user_cat == 'water':
                 param = {
@@ -166,7 +166,7 @@ def registration(request):
                 cur = conn.cursor() 
                 cur.execute('INSERT INTO public.myapp_user("Name", "Email", "Mob", "adhaar", "user_category", "password") VALUES (%s, %s, %s, %s, %s, %s);', (name, email, mobno, adhaar, user_category, params))
                 conn.commit()
-                return JsonResponse({'message': 'Registration successfully as Waterbody user'})
+                return JsonResponse({'message': 'Registration successfully as Water-Body user'})
             else:
                 return JsonResponse({'error': 'Error occured!'})
         except Exception as e:
