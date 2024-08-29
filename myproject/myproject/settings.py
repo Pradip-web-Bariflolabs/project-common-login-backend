@@ -101,6 +101,12 @@ AQUA_FARM_DB_PASS = 'Bfl@2024'
 AQUA_FARM_DB_HOST = 'aqua-postgres.postgres.database.azure.com'
 AQUA_FARM_DB_PORT = '5432'
 
+################## Waterbody Database ########################################################
+WATERBODY_DB_NAME = 'waterdb'
+WATERBODY_DB_USER = 'Bariflolabs'
+WATERBODY_DB_PASS = 'Bfl@2024'
+WATERBODY_DB_HOST = 'aqua-postgres.postgres.database.azure.com'
+WATERBODY_DB_PORT = '5432'
 
 
 # Password validation

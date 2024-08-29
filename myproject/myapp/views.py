@@ -140,7 +140,7 @@ def registration(request):
                 conn.commit()
                 return JsonResponse({'message': 'Registration successfully as Aqua-culture user'})
             
-            if user_cat == 'aqua':
+            elif user_cat == 'aqua':
                 param = {
                     'host':settings.AQUA_FARM_DB_HOST,
                     'database':settings.AQUA_FARM_DB_NAME,
@@ -153,9 +153,22 @@ def registration(request):
                 cur.execute('INSERT INTO public.myapp_registration("Name", "Email", "Mobno", "Adhaar", "user_category", "params") VALUES (%s, %s, %s, %s, %s, %s);', (name, email, mobno, adhaar, user_category, params))
                 conn.commit()
                 return JsonResponse({'message': 'Registration successfully as Waterbody user'})
+            
+            elif user_cat == 'water':
+                param = {
+                    'host':settings.WATERBODY_DB_HOST,
+                    'database':settings.WATERBODY_DB_NAME,
+                    'user':settings.WATERBODY_DB_USER,
+                    'password':settings.WATERBODY_DB_PASS
+                    }
+                conn = psycopg2.connect(**param)
+                print("connected")
+                cur = conn.cursor() 
+                cur.execute('INSERT INTO public.myapp_user("Name", "Email", "Mob", "adhaar", "user_category", "password") VALUES (%s, %s, %s, %s, %s, %s);', (name, email, mobno, adhaar, user_category, params))
+                conn.commit()
+                return JsonResponse({'message': 'Registration successfully as Waterbody user'})
             else:
                 return JsonResponse({'error': 'Error occured!'})
-            # if user_cat == 'aqua':
         except Exception as e:
             return JsonResponse({'error': str(e)})
         
